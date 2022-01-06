@@ -2,48 +2,43 @@ class Solution{
 public:
     int isValid(vector<vector<int>> mat){
         // code here
-        unordered_set<int>ch;
         int flag = 1;
         for(int i = 0;i < 9;i++){
+            int vis[10]  {0};
             for(int j = 0;j < 9;j++){
-                if(ch.find(mat[i][j])!=ch.end()){
+                if(vis[mat[i][j]]){
                     flag = 0;
                     break;
                 }else if(mat[i][j]){
-                    ch.insert(mat[i][j]);
+                    vis[mat[i][j]] = 1;
                 }
             }
-            ch.clear();
         }
         for(int i = 0;i < 9;i++){
+            int vis[10] = {0};
             for(int j = 0;j < 9;j++){
-                if(ch.find(mat[j][i])!=ch.end()){
+                if(vis[mat[j][i]]){
                     flag = 0;
                     break;
                 }else if(mat[j][i]){
-                    ch.insert(mat[j][i]);
+                    vis[mat[j][i]]++;
                 }
             }
-            ch.clear();
         }
         if(flag==0){
             return 0;
         }
         int x = 0,y = 0;
         while(x<=6 && y<=6){
+            int vis[10] = {0};
             for(int i = x;i<x+3;i++){
                 for(int j = y;j<y+3;j++){
-                    if(ch.find(mat[i][j])!=ch.end()){
-                        flag = 0;
-                        break;
+                    if(vis[mat[i][j]]){
+                        return 0;
                     }else if(mat[i][j]){
-                         ch.insert(mat[i][j]);
+                         vis[mat[i][j]]++;
                     }
                 }
-            }
-            ch.clear();
-            if(flag==0){
-                break;
             }
             if(x<6){
                 x+=3;
@@ -52,6 +47,6 @@ public:
                 y+=3;
             }
         }
-        return flag;
+        return 1;
     }
 };
